@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/shubhamkatariya/Api_gateway/issues"
   },
-  "homepage": "https://github.com/shubhamkatariya/Api_gateway#readme"
+  "homepage": "https://github.com/shubhamkatariya/Api_gateway#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
 }
