@@ -1,0 +1,19 @@
+{
+  "name": "api_gateway",
+  "version": "1.0.0",
+  "description": "for create and maintain api using api gateway",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shubhamkatariya/Api_gateway.git"
+  },
+  "author": "shubham katariya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shubhamkatariya/Api_gateway/issues"
+  },
+  "homepage": "https://github.com/shubhamkatariya/Api_gateway#readme"
+}
