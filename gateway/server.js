@@ -29,6 +29,9 @@ mongoose.connection.once('open', function() {
     console.log("Successfully connected to the database");
 })
 
+// Require Notes routes
+require('./routes/note.routes.js')(app);
+
 // Constants
 const PORT = 8080;
 const HOST = '0.0.0.0';
