@@ -1,6 +1,8 @@
 var userController = require('../controllers/user.controller.js');
 
-module.exports = function(app) {
+module.exports = function(app, router) {
   // Create a user
-  app.post('/user', userController.createUser);
+  router.post('/user', userController.createUser);
+
+  app.use(router);
 }

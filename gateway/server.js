@@ -5,6 +5,8 @@ var bodyParser = require('body-parser');
 
 // App
 const app = express();
+var router=express.Router();
+
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -31,7 +33,7 @@ mongoose.connection.once('open', function() {
 
 // Require Notes routes
 require('./routes/api.routes.js')(app);
-require('./routes/user.routes.js')(app);
+require('./routes/user.routes.js')(app, router);
 
 
 // Constants
