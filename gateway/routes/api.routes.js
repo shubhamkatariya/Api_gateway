@@ -18,8 +18,6 @@ module.exports = function(app) {
     // Delete a API with apiId
     app.delete('/api/:apiId', api.delete);
 
-    // Delete a API with apiId
-    // app.get('/call', api.call);
-
+    //call and API
     app.get('/call/*', api.call)
 }

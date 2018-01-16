@@ -1,26 +1,13 @@
 var querystring = require('querystring');
 var https = require('https');
 
-// var host = 'www.thegamecrafter.com';
-// var username = 'JonBob';
-// var password = '*****';
-// var apiKey = '*****';
-// var sessionId = null;
-// var deckId = '68DC5A20-EE4F-11E2-A00C-0858C0D5C2ED';
-
 var RestService = {
-  // host: 'jsonplaceholder.typicode.com',
-  // username: 'JonBob',
-  // password: '*****',
-  // apiKey: '*****',
-  // sessionId: null,
-  // deckId: '68DC5A20-EE4F-11E2-A00C-0858C0D5C2ED',
   performRequest: function (hostname, endpoint, method, data, success) {
     var dataString = JSON.stringify(data);
     console.log(dataString);
     var headers = {};
     
-    if (method == 'GET') {
+    if (method == 'GET' && data !== null) {
       endpoint += '?' + querystring.stringify(data);
     }
     else {
@@ -30,11 +17,13 @@ var RestService = {
       };
     }
     var options = {
-      host: this.host,
+      host: hostname,
       path: endpoint,
       method: method,
       headers: headers
     };
+
+    console.log(options);
 
     var req = https.request(options, function(res) {
       res.setEncoding('utf-8');
