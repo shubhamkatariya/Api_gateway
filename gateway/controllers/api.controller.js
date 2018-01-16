@@ -1,4 +1,4 @@
-var API = require('../models/api.model.js');
+var ApiService = require('../services/api.service.js');
 
 exports.create = function(req, res) {
     // Create and Save a new API
