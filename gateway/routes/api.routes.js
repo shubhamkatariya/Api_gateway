@@ -1,8 +1,22 @@
 var api = require('../controllers/api.controller.js');
-
+var config = require('../config/app_config');
+var response = require('../services/api_response.service')
+var appException = require('../app_util/exceptions')
 
 
 module.exports = function(app, router) {
+
+    // token validation middleware
+    router.use(function(req,res,next){
+        if(!req.headers['token']){
+          return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION("Request does not contain token"), null)
+        }
+        else if(req.headers['token']!=config.authToken){
+          return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION("Invalid token"), null)
+        }
+    });
+
+
     // Create a new API
     router.post('/api', api.create);
 
