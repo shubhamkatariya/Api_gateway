@@ -36,13 +36,21 @@ var ApiService = {
         });
     },
 
-    findAll: function(params) {
+    findAll: function(error, success) {
         // Retrieve and return all apis from the database.
-        API.find(function(err, apis){
+        API.find(function(err, data){
             if(err) {
-                res.status(500).send({message: "Some error occurred while retrieving apis."});
+                var response = {status:500, message: "Something went wrong."};
+                return error(response);
+                console.log(err);
             } else {
-                res.send(apis);
+                if (data != null) {
+                    var response = {status:200, message: "API found.", data: data};
+                } else {
+                    var response = {status:200, message: "No API exists."};
+                }
+                
+                return success(response);
             }
         });
 
