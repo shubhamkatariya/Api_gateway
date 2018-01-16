@@ -10,11 +10,24 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }))
 
 // parse requests of content-type - application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+
+
+// handle errors with codes
+// app.use(function(err, req, res, next) {
+//     res.status(err.status || 500);
+//     res.send({message: err.message,
+//         error: err});
+//     // res.render('error', {
+//     //     message: err.message,
+//     //     error: err
+//     // });
+//  });
 
 // Configuring the database
 var dbConfig = require('./config/database.config.js');
 var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 
 mongoose.connect(dbConfig.url, {
     useMongoClient: true
@@ -32,7 +45,6 @@ mongoose.connection.once('open', function() {
 // Require Notes routes
 require('./routes/api.routes.js')(app);
 require('./routes/user.routes.js')(app);
-
 
 // Constants
 const PORT = 8080;
