@@ -44,6 +44,7 @@ mongoose.connection.once('open', function() {
 
 // Require Notes routes
 require('./routes/api.routes.js')(app);
+require('./routes/user.routes.js')(app);
 
 // Constants
 const PORT = 8080;

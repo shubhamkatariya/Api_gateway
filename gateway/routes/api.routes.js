@@ -1,7 +1,8 @@
+var api = require('../controllers/api.controller.js');
+
+
+
 module.exports = function(app) {
-
-    var api = require('../controllers/api.controller.js');
-
     // Create a new API
     app.post('/api', api.create);
 
