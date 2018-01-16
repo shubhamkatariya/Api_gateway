@@ -14,6 +14,9 @@ module.exports = function(app, router) {
         else if(req.headers['token']!=config.authToken){
           return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION("Invalid token"), null)
         }
+        else{
+          next();
+        }
     });
 
 
