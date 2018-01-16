@@ -1,5 +1,4 @@
-var ApiService = require('../services/api.service.js');
-var RestService = require('../services/rest.service.js');
+var API = require('../models/api.model.js');
 
 exports.create = function(req, res) {
     // Create and Save a new API
@@ -61,7 +60,7 @@ exports.update = function(req, res) {
 
 exports.delete = function(req, res) {
     // Delete a api with the specified apiId in the request
-    API.remove({_id: req.params.apiId}, function(err, data) {
+     API.remove({_id: req.params.apiId}, function(err, data) {
         if(err) {
             res.status(500).send({message: "Could not delete api with id " + req.params.id});
         } else {
@@ -91,7 +90,7 @@ exports.call = function(req, res) {
                 }
             });
         }
-        
+
     });
     // console.log(url);
     // console.log(req);
