@@ -1,33 +1,38 @@
 var API = require('../models/api.model.js');
 
 var ApiService = {
-    create: function(params) {
-        // Create and Save a new API
-        // if(!params) {
-        //     res.status(400).send({message: "API can not be empty"});
-        // } else {
-            var api = new API({
-                title: params.title,
-                hostname: params.title,
-                endpoint: params.endpoint,
-                method: params.method,
-                params: params.params
-            });
+    create: function(params, callback) {
+        API.findOne({ endpoint: params.endpoint, hostname: params.hostname}, function (err, data){
+            if(err) {
+                var response = {status:500, message: "Some error occurred while creating the API."};
+                return callback(response);
+            } else {
+                console.log(data);
+                if (!data) {
+                    var api = new API({
+                        title: params.title,
+                        hostname: params.hostname,
+                        endpoint: params.endpoint,
+                        method: params.method,
+                        params: params.params
+                    });
 
-            api.save(function(err, data) {
-                // console.log(data);
-                if(err) {
-                    var response = {status:500, message: "Some error occurred while creating the API."};
-                    return response;
-                    console.log(err);
-                    // res.status(500).send({message: "Some error occurred while creating the API."});
+                    api.save(function(err, data) {
+                        if(err) {
+                            var response = {status:500, message: "Some error occurred while creating the API."};
+                            return callback(response);
+                            console.log(err);
+                        } else {
+                            var response = {status:200, message: "API created successfully.", data: data};
+                            return callback(response);
+                        }
+                    });
                 } else {
-                    var response = {status:200, message: "API created successfully.", data: data};
-                    return response;
+                    var response = {status:400, message: "API with same hostname and endpoint already exists."};
+                    return callback(response);
                 }
-            });
-        // }
-        
+            }
+        });
     },
 
     findAll: function(params) {
@@ -51,7 +56,20 @@ var ApiService = {
                 res.send(data);
             }
         });
+    },
 
+    findByQuery: function(params, error, success) {
+        // Find a single api with a apiId
+        API.find(params, function(err, data) {
+            if(err) {
+                var response = {status:404, message: "No API found."};
+                return error(response);
+                console.log(err);
+            } else {
+                var response = {status:200, message: "API found.", data: data};
+                return success(response);
+            }
+        });
     },
 
     update: function(params) {

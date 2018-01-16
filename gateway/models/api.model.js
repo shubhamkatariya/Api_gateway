@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var ApiSchema = mongoose.Schema({
     title: String,
     host: String,
+    hostname: String,
     endpoint: String,
     method: String,
     params: Schema.Types.Mixed

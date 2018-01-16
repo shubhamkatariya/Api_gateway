@@ -3,25 +3,14 @@ var RestService = require('../services/rest.service.js');
 
 exports.create = function(req, res) {
     // Create and Save a new API
-    console.log(req);
     if(!req.body.title || !req.body.endpoint || !req.body.hostname) {
         res.status(400).send({message: "API can not be empty"});
     } else {
-    	var result = ApiService.create(req.body);
-    	console.log(result);
-    	res.status(result.status).send({message: result.message, data: result.data});
+    	var result = ApiService.create(req.body, function(response) {
+            console.log(response);
+            res.status(response.status).send({message: response.message, data: response.data});
+        })
     }
-    
-
-    // api.save(function(err, data) {
-    //     console.log(data);
-    //     if(err) {
-    //         console.log(err);
-    //         res.status(500).send({message: "Some error occurred while creating the API."});
-    //     } else {
-    //         res.send(data);
-    //     }
-    // });
 
 };
 
@@ -83,14 +72,41 @@ exports.delete = function(req, res) {
 };
 
 exports.call = function(req, res) {
-    // Delete a api with the specified apiId in the request
-    console.log(RestService.host);
-    RestService.performRequest('/posts/1', 'GET', {}, function(err, success){
-    	if (err) {
-    		res.status(500).send({message: err});
-    	} else {
-            res.send({message: success});
+    // console.log(req.params);
+    var requestURL = req.params[0];
+    var hostname = requestURL.split('/')[0];
+    var queries = {hostname: hostname, endpoint: requestURL.replace(hostname+'/', '')};
+    console.log(queries);
+    var result = ApiService.findByQuery(queries, function(err, data) {
+        if (err) {
+            console.log(err);
+            res.status(err.status).send({message: err.message, data: err.data});
+        } else {
+            var requestData = data.data;
+            RestService.performRequest(requestData.hostname, requestData.endpoint, requestData.method, {}, function(err, success){
+                if (err) {
+                    res.status(500).send({message: err});
+                } else {
+                    res.send({message: success});
+                }
+            });
         }
+        
     });
+    // console.log(url);
+    // console.log(req);
+    // req.url.slice(1, 5);
+    // function (req, res) {
+    //   res.send(req.url)
+    // }
+    // Delete a api with the specified apiId in the request
+    // console.log(RestService.host);
+    // RestService.performRequest(url, 'GET', {}, function(err, success){
+    // 	if (err) {
+    // 		res.status(500).send({message: err});
+    // 	} else {
+    //         res.send({message: success});
+    //     }
+    // });
 
 };
