@@ -1,7 +1,15 @@
 var ApiService = require('../services/api.service.js');
+var helpers = require('../app_util/helpers')
 
 exports.create = function(req, res) {
     // Create and Save a new API
+    console.log("enetere");
+    var requiredParams = ['title', 'endpoint', 'hostname', 'method']
+    var bodyParams = Object.keys(req.body);
+    validateParams = helpers.validate_params(requiredParams, bodyParams);
+    if (validateParams.include == false){
+        return  res.status(400).send({message: validateParams.param_name+" can not be empty"});
+    }
     if(!req.body.title || !req.body.endpoint || !req.body.hostname) {
         res.status(400).send({message: "API can not be empty"});
     } else {
