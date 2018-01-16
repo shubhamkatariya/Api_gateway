@@ -1,4 +1,5 @@
 var user = require('../models/user.model')
+var config = require('../config/app_config')
 
 module.exports = {
   createUserService: function(reqData, callback) {
@@ -33,4 +34,17 @@ module.exports = {
     });
   },
 
+  authUserService: function(reqData, callback) {
+    user.findOne({'email':reqData.email}, function(err, res_data){
+      if (err){
+        return callback(err);
+      }
+      else if (res_data != null && reqData.email == res_data.email && reqData.password == res_data.password){
+        return callback(null, {'token':config.authToken});
+      }
+      else{
+        return callback(null, null);
+      }
+    });
+  }
 }
