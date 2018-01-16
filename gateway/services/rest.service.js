@@ -9,13 +9,13 @@ var https = require('https');
 // var deckId = '68DC5A20-EE4F-11E2-A00C-0858C0D5C2ED';
 
 var RestService = {
-  host: 'jsonplaceholder.typicode.com',
-  username: 'JonBob',
-  password: '*****',
-  apiKey: '*****',
-  sessionId: null,
-  deckId: '68DC5A20-EE4F-11E2-A00C-0858C0D5C2ED',
-  performRequest: function (endpoint, method, data, success) {
+  // host: 'jsonplaceholder.typicode.com',
+  // username: 'JonBob',
+  // password: '*****',
+  // apiKey: '*****',
+  // sessionId: null,
+  // deckId: '68DC5A20-EE4F-11E2-A00C-0858C0D5C2ED',
+  performRequest: function (hostname, endpoint, method, data, success) {
     var dataString = JSON.stringify(data);
     console.log(dataString);
     var headers = {};
