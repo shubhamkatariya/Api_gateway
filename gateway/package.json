@@ -12,6 +12,8 @@
     "express": "^4.16.2",
     "express-validator": "^4.3.0",
     "mongoose": "^4.13.9",
+    "nodemon": "^1.14.11",
+    "util": "^0.10.3",
     "mongoose-sequence": "^4.0.1",
     "nodemon": "^1.14.11"
   }
