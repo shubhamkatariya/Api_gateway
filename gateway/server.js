@@ -2,11 +2,14 @@
 
 const express = require('express');
 var bodyParser = require('body-parser');
-
 // App
 const app = express();
 var router=express.Router();
+var expressValidator = require('express-validator')
 
+const validatorOption = {}
+
+app.use(expressValidator(validatorOption));
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
