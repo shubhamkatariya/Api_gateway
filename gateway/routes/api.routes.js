@@ -9,10 +9,10 @@ module.exports = function(app, router) {
     // token validation middleware
     router.use(function(req,res,next){
         if(!req.headers['token']){
-          return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION("Request does not contain token"), null)
+          return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION(499, "Request does not contain token"), null)
         }
         else if(req.headers['token']!=config.authToken){
-          return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION("Invalid token"), null)
+          return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION(498, "Invalid token"), null)
         }
         else{
           next();
