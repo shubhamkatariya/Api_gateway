@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-const AutoIncrement = require('mongoose-sequence')(mongoose);
+const endPointIncrement = require('mongoose-sequence')(mongoose);
 var Schema = mongoose.Schema;
 
 var EndpointsSchema = mongoose.Schema({
@@ -12,5 +12,5 @@ var EndpointsSchema = mongoose.Schema({
 });
 
 
-EndpointsSchema.plugin(AutoIncrement, {inc_field: 'id'});
+EndpointsSchema.plugin(endPointIncrement, {inc_field: 'epID'});
 module.exports = mongoose.model('Endpoints', EndpointsSchema);

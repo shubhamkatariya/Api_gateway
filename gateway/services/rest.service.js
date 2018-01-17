@@ -16,6 +16,7 @@ var RestService = {
         'Content-Length': dataString.length
       };
     }
+    endpoint = (endpoint[0] == "/") ? endpoint : "/" + endpoint;
     var options = {
       host: hostname,
       path: endpoint,
