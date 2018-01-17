@@ -41,7 +41,6 @@ var EndPointService = {
     },
 
     findByQuery: function(params, error, success) {
-        // Find a single api with a apiId
         EndPoint.find(params, function(err, data) {
             console.log(params);
             if(err) {

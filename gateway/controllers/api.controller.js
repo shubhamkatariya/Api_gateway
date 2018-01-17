@@ -97,8 +97,6 @@ exports.call = function(req, res) {
                 if (callData.length > 0) {
                     var targetURL = apiData[0].targetURL;
                     targetURL = targetURL.replace(/(^\w+:|^)\/\//, '').replace(/\/$/, "");
-                    // targetURL = targetURL.replace("http://", "");
-                    // targetURL = targetURL.replace("/", "");
                     console.log(targetURL);
                     RestService.performRequest(targetURL, callData[0].path, callData[0].method, {}, function(err, success){
                         if (err) {
@@ -115,14 +113,6 @@ exports.call = function(req, res) {
         } else {
             res.status(500).send({message: "Endpoint does not exist."});
         }
-        
-        // RestService.performRequest(requestData.hostname, requestData.endpoint, requestData.method, {}, function(err, success){
-        //     if (err) {
-        //         res.status(500).send({message: err});
-        //     } else {
-        //         res.send({message: success});
-        //     }
-        // });
     });
 
 };
