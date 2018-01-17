@@ -18,8 +18,6 @@ module.exports = function(app, router) {
           next();
         }
     });
-
-
     // Create a new API
     router.post('/api', api.create);
 
