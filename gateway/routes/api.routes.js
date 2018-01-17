@@ -1,40 +1,26 @@
 var api = require('../controllers/api.controller.js');
 var config = require('../config/app_config');
-var response = require('../services/api_response.service')
-var appException = require('../app_util/exceptions')
+var helpers = require('../app_util/helpers');
 
 
 module.exports = function(app, router) {
-
-    // token validation middleware
-    router.use(function(req,res,next){
-        if(!req.headers['token']){
-          return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION(499, "Request does not contain token"), null)
-        }
-        else if(req.headers['token']!=config.authToken){
-          return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION(498, "Invalid token"), null)
-        }
-        else{
-          next();
-        }
-    });
     // Create a new API
-    router.post('/api', api.create);
+    router.post('/api', helpers.verifyAuthToken, api.create);
 
     // Retrieve all api
-    router.get('/api', api.findAll);
+    router.get('/api', helpers.verifyAuthToken, api.findAll);
 
     // Retrieve a single API with apiId
-    router.get('/api/:apiId', api.findOne);
+    router.get('/api/:apiId', helpers.verifyAuthToken, api.findOne);
 
     // Update a API with apiId
-    router.put('/api/:apiId', api.update);
+    router.put('/api/:apiId', helpers.verifyAuthToken, api.update);
 
     // Delete a API with apiId
-    router.delete('/api/:apiId', api.delete);
+    router.delete('/api/:apiId', helpers.verifyAuthToken, api.delete);
 
     //call and API
-    router.get('/call/*', api.call)
+    router.get('/call/*', helpers.verifyAuthToken, api.call)
 
     app.use(router);
 }

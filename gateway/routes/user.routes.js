@@ -6,7 +6,7 @@ module.exports = function(app, router) {
   router.post('/user', userController.createUser);
 
   // login a user
-  router.post('/login', userController.authUser)
+  router.post('/login', userController.authUser);
 
   router.get('/user', function(req, res, next){
     req.checkQuery('page', '"page" must be Int, not empty').notEmpty().isInt();
