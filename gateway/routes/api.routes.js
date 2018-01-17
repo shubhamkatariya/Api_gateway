@@ -1,5 +1,4 @@
 var api = require('../controllers/api.controller.js');
-var config = require('../config/app_config');
 var helpers = require('../app_util/helpers');
 
 
