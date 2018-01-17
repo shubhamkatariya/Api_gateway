@@ -4,7 +4,7 @@ var helper = require('../app_util/helpers')
 
 var ApiService = {
     create: function(params, callback) {
-        API.findOne({ title: params.title, username: params.username}, function (err, data){
+        API.findOne({ title: params.title, userID: params.userID}, function (err, data){
             if(err) {
                 var response = {status:500, message: "Some error occurred while creating the API."};
                 return callback(response);
@@ -16,10 +16,10 @@ var ApiService = {
                     targetURL = (targetURL[targetURL.length-1] === "/") ? targetURL : targetURL + "/";
                     var api = new API({
                         title: params.title,
-                        username: params.username,
+                        userID: params.userID,
                         targetURL: targetURL,
                         slug: slug,
-                        apiURL: targetURL+slug+"/"
+                        apiURL: "http://0.0.0.0:8080/call/"+params.userID+"/"+slug+"/"
                     });
 
                     api.save(function(err, data) {

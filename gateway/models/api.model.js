@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 var ApiSchema = mongoose.Schema({
     title: String,
-    targetUrl: String,
+    targetURL: String,
     userID: String,
     slug: String,
     apiURL: String

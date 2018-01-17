@@ -34,6 +34,8 @@ mongoose.connection.once('open', function() {
 // Require Notes routes
 require('./routes/api.routes.js')(app, router);
 require('./routes/user.routes.js')(app, router);
+require('./routes/endpoint.routes.js')(app, router);
+
 
 
 // Constants
