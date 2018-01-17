@@ -6,3 +6,11 @@ module.exports.validate_params = function(required_param, body_param) {
   }
   return true;
 }
+
+module.exports.convertToSlug = function(txt) {
+    return txt
+        .toLowerCase()
+        .replace(/[^\w ]+/g,'')
+        .replace(/ +/g,'-')
+        ;
+}

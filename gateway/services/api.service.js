@@ -1,21 +1,25 @@
 
 var API = require('../models/api.model.js');
+var helper = require('../app_util/helpers')
 
 var ApiService = {
     create: function(params, callback) {
-        API.findOne({ endpoint: params.endpoint, hostname: params.hostname}, function (err, data){
+        API.findOne({ title: params.title, username: params.username}, function (err, data){
             if(err) {
                 var response = {status:500, message: "Some error occurred while creating the API."};
                 return callback(response);
             } else {
                 console.log(data);
                 if (!data) {
+                    var slug = helper.convertToSlug(params.title);
+                    var targetURL = params.targetURL;
+                    targetURL = (targetURL[targetURL.length-1] === "/") ? targetURL : targetURL + "/";
                     var api = new API({
                         title: params.title,
-                        hostname: params.hostname,
-                        endpoint: params.endpoint,
-                        method: params.method,
-                        params: params.params
+                        username: params.username,
+                        targetURL: targetURL,
+                        slug: slug,
+                        apiURL: targetURL+slug+"/"
                     });
 
                     api.save(function(err, data) {
