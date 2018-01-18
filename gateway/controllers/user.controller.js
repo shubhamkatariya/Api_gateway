@@ -54,6 +54,9 @@ module.exports.authUser = function(req, res) {
       }
 
       else{
+          req.session.email = req.body.email;
+          req.session.token = userData.token;
+          req.session.tokenObtainedAt = Date.now();
         return response.successResponse(req, res, userData, "Login Successful")
       }
     });

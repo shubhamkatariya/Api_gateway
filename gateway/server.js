@@ -4,10 +4,13 @@ const express = require('express');
 var bodyParser = require('body-parser');
 // App
 const app = express();
+var session = require('express-session');
 var router=express.Router();
 var expressValidator = require('express-validator')
 
 const validatorOption = {}
+
+// app.use(session({secret: "dfsdfdfdsffsdfsdfdsf", resave: false, saveUninitialized: true}))
 
 app.use(expressValidator(validatorOption));
 
@@ -24,6 +27,20 @@ var mongoose = require('mongoose');
 mongoose.connect(dbConfig.url, {
     useMongoClient: true
 });
+
+app.use(session({
+    secret: 'a4f8071f-c873-4447-8ee2',
+    cookie: { maxAge: 60000 },
+    store: new (require('express-sessions'))({
+        storage: 'mongodb',
+        instance: mongoose, // optional
+        host: 'localhost', // optional
+        port: 27017, // optional
+        db: 'gateway', // optional
+        collection: 'sessions', // optional
+        expire: 86400 // optional
+    })
+}));
 
 mongoose.connection.on('error', function() {
     console.log('Could not connect to the database. Exiting now...');

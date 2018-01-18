@@ -1,5 +1,6 @@
 var user = require('../models/user.model')
 var config = require('../config/app_config')
+var randomString = require("randomstring");
 
 module.exports = {
   createUserService: function(reqData, callback) {
@@ -40,7 +41,7 @@ module.exports = {
         return callback(err);
       }
       else if (res_data != null && reqData.email == res_data.email && reqData.password == res_data.password){
-        return callback(null, {'token':config.authToken});
+        return callback(null, {'token':randomString.generate()});
       }
       else{
         return callback(null, null);

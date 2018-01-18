@@ -21,8 +21,12 @@ module.exports.convertToSlug = function(txt) {
 }
 
 module.exports.verifyAuthToken = function(req, res, next) {
+  console.log(req.session.token);
   if(!req.headers['token']){
     return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION(499, "Request does not contain token"), null)
+  }
+  else if (!req.session || req.session.token != req.headers['token']){
+    return response.errorResponse(req, res, appException.NOT_AUTHORIZED("Your session has been expired"), null)
   }
   else if(req.headers['token']!=config.authToken){
     return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION(498, "Invalid token"), null)
@@ -31,3 +35,8 @@ module.exports.verifyAuthToken = function(req, res, next) {
     next();
   }
 }
+
+
+// module.exports.validateUserSession = function(req, res, next) {
+//   if(!req.session)
+// }
