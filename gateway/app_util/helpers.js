@@ -1,5 +1,6 @@
 var response = require('../services/api_response.service')
 var appException = require('../app_util/exceptions')
+var config = require('../config/app_config');
 
 
 module.exports.validate_params = function(required_param, body_param) {

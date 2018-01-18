@@ -11,6 +11,6 @@ var EndpointsSchema = mongoose.Schema({
     timestamps: true
 });
 
-
+EndpointsSchema.index({endpointURL: 'text'});
 EndpointsSchema.plugin(endPointIncrement, {inc_field: 'epID'});
 module.exports = mongoose.model('Endpoints', EndpointsSchema);

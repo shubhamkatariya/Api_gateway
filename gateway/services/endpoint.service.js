@@ -53,6 +53,20 @@ var EndPointService = {
             }
         });
     },
+
+    findByAggregateURL: function(params, error, success) {
+        EndPoint.find(params, function(err, data) {
+            console.log(params);
+            if(err) {
+                var response = {status:404, message: "No API found."};
+                return error(response);
+                console.log(err);
+            } else {
+                var response = {status:200, message: "API found.", data: data};
+                return success(response);
+            }
+        });
+    }
 };
 
 module.exports = EndPointService;
