@@ -76,6 +76,8 @@ exports.delete = function(req, res) {
 
 exports.call = function(req, res) {
     var requestURL = req.params[0];
+    var fullUrl = req.protocol + '://' + req.get('host') + req.url;
+    fullUrl = decodeURIComponent(fullUrl);
     var userID = requestURL.split('/')[0];
     var slug = requestURL.split('/')[1];
     var queries = {userID: userID, slug: slug};
@@ -86,8 +88,10 @@ exports.call = function(req, res) {
 
     }, function(data){
         var apiData = data.data;
+        var performRequest = false;
+        var mathcedURL = "";
         if (apiData.length > 0) {
-            EndpointService.findByQuery({endpointURL: {$regex : requestURL}}, function(err) {
+            EndpointService.findByAggregateURL({$text: {$search : requestURL}}, function(err) {
                 if (err) {
                     res.status(500).send({message: err});
                 }
@@ -95,19 +99,35 @@ exports.call = function(req, res) {
                 var callData = data.data;
                 console.log(data);
                 if (callData.length > 0) {
-                    var targetURL = apiData[0].targetURL;
-                    targetURL = targetURL.replace(/(^\w+:|^)\/\//, '').replace(/\/$/, "");
-                    // targetURL = targetURL.replace("http://", "");
-                    // targetURL = targetURL.replace("/", "");
-                    console.log(targetURL);
-                    RestService.performRequest(targetURL, callData[0].path, callData[0].method, {}, function(err, success){
-                        if (err) {
-                            res.status(500).send({message: err});
+                    console.log("searching for URL = " + new RegExp(fullUrl));
+                    for (var i = 0, len = callData.length; i < len; i++) {
+                        if (callData[i].endpointURL == fullUrl) {
+                            console.log("Matched path = " + callData[i].endpointURL);
+                            mathcedURL = callData[i].endpointURL;
+                            performRequest = true;
+                            break;
                         } else {
-                            res.send({message: success});
+                            console.log("Can't find path = " + fullUrl);
                         }
-                    });
+                    }
+                    if (performRequest) {
+
+                    } else {
+
+                    }
+                    // var targetURL = apiData[0].targetURL;
+                    // targetURL = targetURL.replace(/(^\w+:|^)\/\//, '').replace(/\/$/, "");
+                    // console.log(targetURL);
+                    // RestService.performRequest(targetURL, callData[0].path, callData[0].method, {}, function(err, success){
+                    //     if (err) {
+                    //         res.status(500).send({message: err});
+                    //     } else {
+                    //         res.send({message: success});
+                    //     }
+                    // });
                 } else {
+                    // var t = "\\some\\route\\here";
+                    // t = t.substr(0, t.lastIndexOf("\\"));
                     res.status(400).send({message: "Bad request."});
                 }
                 
@@ -115,14 +135,6 @@ exports.call = function(req, res) {
         } else {
             res.status(500).send({message: "Endpoint does not exist."});
         }
-        
-        // RestService.performRequest(requestData.hostname, requestData.endpoint, requestData.method, {}, function(err, success){
-        //     if (err) {
-        //         res.status(500).send({message: err});
-        //     } else {
-        //         res.send({message: success});
-        //     }
-        // });
     });
 
 };
