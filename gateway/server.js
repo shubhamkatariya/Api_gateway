@@ -38,7 +38,7 @@ mongoose.connection.once('open', function() {
 require('./routes/api.routes.js')(app, router);
 require('./routes/user.routes.js')(app, router);
 require('./routes/endpoint.routes.js')(app, router);
-
+require('./routes/auth.routes.js')(app, router);
 
 
 // Constants
