@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 // App
 const app = express();
 var session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 var router=express.Router();
 var expressValidator = require('express-validator')
 
@@ -28,20 +29,33 @@ mongoose.connect(dbConfig.url, {
     useMongoClient: true
 });
 
+// new code for experiment
 app.use(session({
-    secret: 'a4f8071f-c873-4447-8ee2',
-    cookie: { maxAge: 120000 },
-    store: new (require('express-sessions'))({
-        storage: 'mongodb',
-        instance: mongoose, // optional
-        host: 'localhost', // optional
-        port: 27017, // optional
-        db: 'gateway', // optional
-        collection: 'sessions', // optional
-        expire: 86400 // optional
-    }),
-    saveUninitialized: true
+	secret: "test",
+	saveUninitialized: false, // don't create session until something stored
+	resave: false, //don't save session if unmodified
+    store: new MongoStore({
+    	mongooseConnection: mongoose.connection,
+    	autoRemove: 'interval',
+    	autoRemoveInterval: 10
+    })
 }));
+// commenting shubham k's code
+// app.use(session({
+//     secret: 'a4f8071f-c873-4447-8ee2',
+//     cookie: { maxAge: 120000 },
+//     store: new (require('express-sessions'))({
+//         storage: 'mongodb',
+//         instance: mongoose, // optional
+//         host: 'localhost', // optional
+//         port: 27017, // optional
+//         db: 'gateway', // optional
+//         collection: 'sessions', // optional
+//         expire: 86400 // optional
+//     }),
+//     saveUninitialized: false,
+//     resave: false
+// }));
 
 mongoose.connection.on('error', function() {
     console.log('Could not connect to the database. Exiting now...');
