@@ -30,7 +30,7 @@ mongoose.connect(dbConfig.url, {
 
 app.use(session({
     secret: 'a4f8071f-c873-4447-8ee2',
-    cookie: { maxAge: 60000 },
+    cookie: { maxAge: 120000 },
     store: new (require('express-sessions'))({
         storage: 'mongodb',
         instance: mongoose, // optional
@@ -39,7 +39,8 @@ app.use(session({
         db: 'gateway', // optional
         collection: 'sessions', // optional
         expire: 86400 // optional
-    })
+    }),
+    saveUninitialized: true
 }));
 
 mongoose.connection.on('error', function() {

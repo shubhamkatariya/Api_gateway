@@ -54,9 +54,13 @@ module.exports.authUser = function(req, res) {
       }
 
       else{
-          req.session.email = req.body.email;
-          req.session.token = userData.token;
-          req.session.tokenObtainedAt = Date.now();
+        // userService.createUserSession(req.body, userData, function(err, sessionData){
+        //   console.log(";;;;;;;;");
+        //   console.log(sessionData);
+        //   console.log("user session created");
+        // });
+          // req.session.email = req.body.email;
+          // req.session.token = userData.token;
         return response.successResponse(req, res, userData, "Login Successful")
       }
     });

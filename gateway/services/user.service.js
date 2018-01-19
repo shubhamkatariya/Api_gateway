@@ -1,4 +1,5 @@
 var user = require('../models/user.model')
+var session = require('../models/session.model')
 var config = require('../config/app_config')
 var randomString = require("randomstring");
 
@@ -47,5 +48,22 @@ module.exports = {
         return callback(null, null);
       }
     });
-  }
+  },
+
+//   createUserSession: function(reqData, userData, callback) {
+//     var sessionObject = new session({
+//       email: reqData.email,
+//       token: userData.token,
+//       expires : Date.now()+60000,
+//       lastAccess: Date.now()
+//     });
+//
+//     sessionObject.save(function(err, res_data){
+//       if(err){
+//         return callback(err)
+//       }
+//       console.log("session data saved Successfully");
+//       return callback(null, res_data)
+//     });
+//   },
 }
