@@ -60,7 +60,7 @@ module.exports.authUser = function(req, res) {
         //   console.log("user session created");
         // });
           // req.session.email = req.body.email;
-          // req.session.token = userData.token;
+          req.session.token = userData.token;
         return response.successResponse(req, res, userData, "Login Successful")
       }
     });
