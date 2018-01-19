@@ -40,7 +40,8 @@ app.use(session({
         collection: 'sessions', // optional
         expire: 86400 // optional
     }),
-    saveUninitialized: true
+    saveUninitialized: false,
+    resave: false
 }));
 
 mongoose.connection.on('error', function() {
