@@ -22,8 +22,8 @@ module.exports.convertToSlug = function(txt) {
 }
 
 module.exports.verifyAuthToken = function(req, res, next) {
+  var token = req.headers['token'];
   if(token){
-    var token = req.headers['token'];
     var currentTime = new Date()/1000;
     var originalDecoded = jwt.decode(token, {complete: true});
     var tokenExpiry = originalDecoded['payload']['exp']
