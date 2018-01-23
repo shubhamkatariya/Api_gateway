@@ -2,6 +2,12 @@ var userService = require('../services/user.service')
 var response = require('../services/api_response.service')
 var appException = require('../app_util/exceptions')
 var helpers = require('../app_util/helpers')
+var jwt = require('jsonwebtoken');
+
+function createToken(user) {
+    return jwt.sign({foo: user},'shhhhh',{expiresIn: 1800});
+}
+
 
 module.exports.createUser = function(req, res) {
     try {
@@ -54,14 +60,7 @@ module.exports.authUser = function(req, res) {
       }
 
       else{
-        // userService.createUserSession(req.body, userData, function(err, sessionData){
-        //   console.log(";;;;;;;;");
-        //   console.log(sessionData);
-        //   console.log("user session created");
-        // });
-          // req.session.email = req.body.email;
-          req.session.token = userData.token;
-        return response.successResponse(req, res, userData, "Login Successful")
+        return response.successResponse(req, res, createToken(req.body.email), "Login Successful")
       }
     });
   } catch (err){

@@ -42,28 +42,11 @@ module.exports = {
         return callback(err);
       }
       else if (res_data != null && reqData.email == res_data.email && reqData.password == res_data.password){
-        return callback(null, {'token':randomString.generate()});
+        return callback(null, {'user':res_data, 'token':randomString.generate()});
       }
       else{
         return callback(null, null);
       }
     });
   },
-
-//   createUserSession: function(reqData, userData, callback) {
-//     var sessionObject = new session({
-//       email: reqData.email,
-//       token: userData.token,
-//       expires : Date.now()+60000,
-//       lastAccess: Date.now()
-//     });
-//
-//     sessionObject.save(function(err, res_data){
-//       if(err){
-//         return callback(err)
-//       }
-//       console.log("session data saved Successfully");
-//       return callback(null, res_data)
-//     });
-//   },
 }

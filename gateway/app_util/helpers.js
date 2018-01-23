@@ -1,6 +1,7 @@
 var response = require('../services/api_response.service')
 var appException = require('../app_util/exceptions')
 var config = require('../config/app_config');
+var jwt = require("jsonwebtoken");
 
 
 module.exports.validate_params = function(required_param, body_param) {
@@ -21,21 +22,16 @@ module.exports.convertToSlug = function(txt) {
 }
 
 module.exports.verifyAuthToken = function(req, res, next) {
-  if(!req.headers['token']){
-    return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION(499, "Request does not contain token"), null)
-  }
-  else if(!req.session.token){
-    return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION(440, "Your session has been expired"), null)
-  }
-  else if (req.session.token != req.headers['token']){
-    return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION(498, "Invalid token"), null)
-  }
-  else{
-    next();
+  var token = req.headers['token'];
+  if(token){
+    jwt.verify(token, 'shhhhh', function(err,ress){
+      if(err){
+        return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION("Token invalid"), null)
+      }else{
+        next();
+      }
+    });
+  } else{
+    return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION("Please send a token"), null)
   }
 }
-
-
-// module.exports.validateUserSession = function(req, res, next) {
-//   if(!req.session)
-// }

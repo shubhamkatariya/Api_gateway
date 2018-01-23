@@ -1,6 +1,8 @@
 var userController = require('../controllers/user.controller.js');
 var util = require('util');
 var helpers = require('../app_util/helpers');
+var sess;
+
 
 module.exports = function(app, router) {
   // Create a user
@@ -33,7 +35,6 @@ module.exports = function(app, router) {
     })
 
   router.get('/dashboard', helpers.verifyAuthToken, function(req, res){
-    console.log(req.session.token);
     // if(!req.session.token){
     //   return res.status(401).send("Request does not contain session");
     // }
