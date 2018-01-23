@@ -22,16 +22,17 @@ module.exports.convertToSlug = function(txt) {
 }
 
 module.exports.verifyAuthToken = function(req, res, next) {
-  var token = req.headers['token'];
-  var currentTime = new Date()/1000;
-  var originalDecoded = jwt.decode(token, {complete: true});
-  var tokenExpiry = originalDecoded['payload']['exp']
-  if (tokenExpiry-currentTime <= 20){
-    var originalDecoded = jwt.decode(token, {complete: true});
-    var refreshed = jwt.refresh(originalDecoded, 60, 'shhhhh');
-    res.access_token = refreshed;
-  }
   if(token){
+    var token = req.headers['token'];
+    var currentTime = new Date()/1000;
+    var originalDecoded = jwt.decode(token, {complete: true});
+    var tokenExpiry = originalDecoded['payload']['exp']
+    if (tokenExpiry-currentTime <= 20){
+      var originalDecoded = jwt.decode(token, {complete: true});
+      var refreshed = jwt.refresh(originalDecoded, 60, 'shhhhh');
+      res.access_token = refreshed;
+    }
+
     jwt.verify(token, 'shhhhh', function(err,ress){
       if(err){
         return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION(498, "Token invalid"), null)
@@ -40,6 +41,6 @@ module.exports.verifyAuthToken = function(req, res, next) {
       }
     });
   } else{
-    return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION("Please send a token"), null)
+    return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION(499, "Please send a token"), null)
   }
 }
