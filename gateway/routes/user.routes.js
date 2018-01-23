@@ -1,6 +1,7 @@
 var userController = require('../controllers/user.controller.js');
 var util = require('util');
 var helpers = require('../app_util/helpers');
+var response = require('../services/api_response.service');
 var sess;
 
 
@@ -38,7 +39,8 @@ module.exports = function(app, router) {
     // if(!req.session.token){
     //   return res.status(401).send("Request does not contain session");
     // }
-    return res.status(200).send("Welcome to dashboard");
+    data = {'msg':'welcome to dashboard'}
+    return response.successResponse(req, res, data, null)
   });
 
   app.use(router);

@@ -1,7 +1,7 @@
 var response = require('../services/api_response.service')
 var appException = require('../app_util/exceptions')
 var config = require('../config/app_config');
-var jwt = require("jsonwebtoken");
+var jwt = require("jsonwebtoken-refresh");
 
 
 module.exports.validate_params = function(required_param, body_param) {
@@ -23,10 +23,18 @@ module.exports.convertToSlug = function(txt) {
 
 module.exports.verifyAuthToken = function(req, res, next) {
   var token = req.headers['token'];
+  var currentTime = new Date()/1000;
+  var originalDecoded = jwt.decode(token, {complete: true});
+  var tokenExpiry = originalDecoded['payload']['exp']
+  if (tokenExpiry-currentTime <= 20){
+    var originalDecoded = jwt.decode(token, {complete: true});
+    var refreshed = jwt.refresh(originalDecoded, 60, 'shhhhh');
+    res.access_token = refreshed;
+  }
   if(token){
     jwt.verify(token, 'shhhhh', function(err,ress){
       if(err){
-        return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION("Token invalid"), null)
+        return response.errorResponse(req, res, appException.VALIDATION_EXCEPTION(498, "Token invalid"), null)
       }else{
         next();
       }

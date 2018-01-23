@@ -6,6 +6,9 @@ module.exports.successResponse = function(req, res, data, customMsg) {
 	res.setHeader('Content-type', 'application/json; charset=utf-8')
 	var result = { 'success': true, 'data': data, 'error': null, 'rcode': 200,
 		'customMsg': customMsg }
+	if (res.access_token){
+		result['data']['access_token'] = res.access_token;
+	}
 	res.status(200).send(result)
 }
 

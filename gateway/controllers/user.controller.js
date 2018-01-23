@@ -2,10 +2,10 @@ var userService = require('../services/user.service')
 var response = require('../services/api_response.service')
 var appException = require('../app_util/exceptions')
 var helpers = require('../app_util/helpers')
-var jwt = require('jsonwebtoken');
+var jwt = require('jsonwebtoken-refresh');
 
 function createToken(user) {
-    return jwt.sign({foo: user},'shhhhh',{expiresIn: 1800});
+    return jwt.sign({foo: user},'shhhhh',{expiresIn: 60});
 }
 
 
